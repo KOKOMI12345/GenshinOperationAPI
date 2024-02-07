@@ -1,4 +1,4 @@
-from NaviaConntrolers import *
+from NaviaControlers import *
 
 class FuncToNavia:
     """
@@ -10,12 +10,14 @@ class FuncToNavia:
         self.log = config_log("入口")
         pass
 
-    def MainFunc(self,timeWaitToRun : float = 5):
+    def MainFunc(self,timeWaitToRun : float = 0):
         #示例调用
         self.log.warning(f"{timeWaitToRun}秒后开始执行,立刻切回游戏")
         time.sleep(timeWaitToRun)
         self.log.info("开始执行")
-        navia.Fire(method="Charged",times=0.5,change=3,timeWait=7)
+        listener = Listener()
+        #listener.start()
+        listener.Replay('event.json')
         self.log.info("执行完毕")
         pass
 
@@ -43,3 +45,5 @@ func = FuncToNavia()
 admin = Admin()
 if __name__ == '__main__':
     admin.RunThread(func=func.MainFunc)
+
+

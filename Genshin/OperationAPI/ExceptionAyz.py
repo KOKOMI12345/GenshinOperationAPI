@@ -1,5 +1,7 @@
 import traceback
-
+from Log4p import LogManager
+logmanager = LogManager()
+logger = logmanager.GetLogger(log_name='致命错误记录')
 def fatal_analyzer(func):
     def wrapper(*args, **kwargs):
         try:
@@ -10,7 +12,9 @@ def fatal_analyzer(func):
             error_message += f"错误信息: {str(e)} \n"
             error_message += "异常追踪信息: \n"
             error_message += traceback.format_exc()
-            error_message += "\n----------------------------------------\n"
+            error_message += "异常追踪结束. \n"
+            error_message += "===========================================\n"
+            logger.critical(error_message)
             with open("fatal.log", "a",encoding="utf-8") as file:
                 file.write(error_message)
             raise  # 抛出异常，保持异常的原始行为

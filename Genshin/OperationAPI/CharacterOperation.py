@@ -1,14 +1,15 @@
 import time
 from Operate import operation
 import User
-import logs
+from Log4p import LogManager
+Logmanager = LogManager()
 #定义原神角色操作的类
 class CharacterOperation:
     """
     角色操作API类
     """
-    def __init__(self,name: str = None,noWarning: bool = None):
-        self.log = logs.config_log("角色操作日志")
+    def __init__(self,name: str = None,noWarning: bool = False):
+        self.log = Logmanager.GetLogger("角色操作日志")
         self.name = name
         self.log.info(f"角色操作类初始化,角色为 {self.name} 正在使用此操控器")
         self.noWarning = noWarning
@@ -22,14 +23,17 @@ class CharacterOperation:
            time.sleep(1)
         self.log.info("跳跃")
 
+    def MouseLeftClick(self):
+        operation.mouse(User.Mouse.MOUSEEVENT_LEFTDOWN,0,0)
+        operation.mouse(User.Mouse.MOUSEEVENT_LEFTUP)
     def MoveMouseToPosition(self,x=None,y=None):
         operation.mouse(1,x,y)
         self.log.info(f"移动鼠标到坐标({x},{y})")
 
     def Forward(self,times):
-        operation.press_key(User.Keyboard.A)
+        operation.press_key(User.Keyboard.W)
         time.sleep(times)
-        operation.release_key(User.Keyboard.A)
+        operation.release_key(User.Keyboard.W)
         self.log.info("向前移动")
 
     def Backward(self,times):
